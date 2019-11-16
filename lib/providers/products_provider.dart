@@ -1,12 +1,12 @@
 //import
 import 'package:flutter/material.dart';
 
-import '../models/products.dart';
+import './product.dart';
 
 class ProductsProvider with ChangeNotifier {
   //props
-  List<Products> _items = [
-    Products(
+  List<Product> _items = [
+    Product(
       id: 'p1',
       title: 'Red Shirt',
       description: 'A red shirt - it is pretty red!',
@@ -14,7 +14,7 @@ class ProductsProvider with ChangeNotifier {
       imageUrl:
           'https://gabazoo.com/wp-content/uploads/2016/07/Cherry_Red_web_1024x1024.jpg',
     ),
-    Products(
+    Product(
       id: 'p2',
       title: 'Trousers',
       description: 'A nice pair of trousers.',
@@ -22,7 +22,7 @@ class ProductsProvider with ChangeNotifier {
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
     ),
-    Products(
+    Product(
       id: 'p3',
       title: 'Yellow Scarf',
       description: 'Warm and cozy - exactly what you need for the winter.',
@@ -30,7 +30,7 @@ class ProductsProvider with ChangeNotifier {
       imageUrl:
           'https://images-na.ssl-images-amazon.com/images/I/61LrCTo8lRL._UY445_.jpg',
     ),
-    Products(
+    Product(
       id: 'p4',
       title: 'A Pan',
       description: 'Prepare any meal you want.',
@@ -41,12 +41,17 @@ class ProductsProvider with ChangeNotifier {
   ];
 
   //get items
-  List<Products> get items {
+  List<Product> get items {
     return [..._items];
   }
 
+  //get favorite items
+  List<Product> get favoriteItems {
+    return _items.where((product) => product.isFavorite).toList();
+  }
+
   // grt product by id
-  Products getProductById(String id) {
+  Product getProductById(String id) {
     return _items.firstWhere((product) => product.id == id);
   }
 }

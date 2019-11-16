@@ -1,7 +1,7 @@
 //import
 import 'package:flutter/foundation.dart';
 
-class Products {
+class Product with ChangeNotifier {
   //props
   final String id;
   final String title;
@@ -11,7 +11,7 @@ class Products {
   bool isFavorite;
 
   //constr
-  Products({
+  Product({
     @required this.id,
     @required this.title,
     @required this.description,
@@ -19,4 +19,9 @@ class Products {
     @required this.imageUrl,
     this.isFavorite = false,
   });
+
+  void toggleFavoriteStatus() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
 }

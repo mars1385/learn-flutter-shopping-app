@@ -18,11 +18,23 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items;
-
+  Map<String, CartItem> _items = {};
   //get all items
   Map<String, CartItem> get items {
     return {..._items};
+  }
+
+  //get item count
+  int get itemCount {
+    int count = 0;
+    _items.forEach((id, item) => count += item.quantity);
+    return count;
+  }
+
+  double get cartItemsAmount {
+    double amount = 0;
+    _items.forEach((key, item) => amount += item.price * item.quantity);
+    return amount;
   }
 
   //add item to cart
@@ -46,5 +58,18 @@ class Cart with ChangeNotifier {
                 quantity: 1,
               ));
     }
+    notifyListeners();
+  }
+
+  //remove from cart
+  void removeItem(String productId) {
+    _items.remove(productId);
+    notifyListeners();
+  }
+
+  //clear cart
+  void clearCart() {
+    _items = {};
+    notifyListeners();
   }
 }

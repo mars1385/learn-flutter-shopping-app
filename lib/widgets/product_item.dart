@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../screens/product_detail_screen.dart';
 import '../providers/product.dart';
+import '../providers/cart.dart';
 
 class ProuductItem extends StatelessWidget {
   @override
@@ -11,6 +12,7 @@ class ProuductItem extends StatelessWidget {
     //theme
     final themeOf = Theme.of(context);
     final product = Provider.of<Product>(context, listen: false);
+    final cartItem = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -42,7 +44,8 @@ class ProuductItem extends StatelessWidget {
           trailing: IconButton(
             color: themeOf.accentColor,
             icon: Icon(Icons.shopping_cart),
-            onPressed: () {},
+            onPressed: () =>
+                cartItem.addItem(product.id, product.title, product.price),
           ),
         ),
       ),

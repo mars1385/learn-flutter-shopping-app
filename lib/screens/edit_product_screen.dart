@@ -12,13 +12,32 @@ class _EditProductScreenState extends State<EditProductScreen> {
   // our input focus
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
+  final _imageUrlController = TextEditingController();
+  final _imageUrlFocus = FocusNode();
+
+  @override
+  void initState() {
+    _imageUrlController.addListener(_updateImageUrl);
+
+    super.initState();
+  }
 
   // dispose
   @override
   void dispose() {
+    _imageUrlController.removeListener(_updateImageUrl);
     _priceFocus.dispose();
     _descriptionFocus.dispose();
+    _imageUrlController.dispose();
+    _imageUrlFocus.dispose();
     super.dispose();
+  }
+
+  // methodes
+  void _updateImageUrl() {
+    if (!_imageUrlFocus.hasFocus) {
+      setState(() {});
+    }
   }
 
   @override
@@ -52,6 +71,36 @@ class _EditProductScreenState extends State<EditProductScreen> {
               maxLines: 3,
               keyboardType: TextInputType.multiline,
               focusNode: _descriptionFocus,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  width: 100,
+                  height: 100,
+                  margin: EdgeInsets.only(top: 8, right: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  child: _imageUrlController.text.isEmpty
+                      ? Text('Enter URL')
+                      : FittedBox(
+                          child: Image.network(_imageUrlController.text),
+                        ),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(labelText: 'Image URL'),
+                    keyboardType: TextInputType.url,
+                    focusNode: _imageUrlFocus,
+                    controller: _imageUrlController,
+                    textInputAction: TextInputAction.done,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
